@@ -13,6 +13,7 @@ import { createFileRoute } from '@tanstack/react-router'
 import { Route as rootRouteImport } from './routes/__root'
 
 const ScanLazyRouteImport = createFileRoute('/scan')()
+const ChatLazyRouteImport = createFileRoute('/chat')()
 const IndexLazyRouteImport = createFileRoute('/')()
 const ProductIndexLazyRouteImport = createFileRoute('/product/')()
 const BrandIndexLazyRouteImport = createFileRoute('/brand/')()
@@ -35,6 +36,11 @@ const ScanLazyRoute = ScanLazyRouteImport.update({
   path: '/scan',
   getParentRoute: () => rootRouteImport,
 } as any).lazy(() => import('./routes/scan.lazy').then((d) => d.Route))
+const ChatLazyRoute = ChatLazyRouteImport.update({
+  id: '/chat',
+  path: '/chat',
+  getParentRoute: () => rootRouteImport,
+} as any).lazy(() => import('./routes/chat.lazy').then((d) => d.Route))
 const IndexLazyRoute = IndexLazyRouteImport.update({
   id: '/',
   path: '/',
@@ -108,6 +114,7 @@ const UserListBlackLazyRoute = UserListBlackLazyRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexLazyRoute
+  '/chat': typeof ChatLazyRoute
   '/scan': typeof ScanLazyRoute
   '/auth/sign-in': typeof AuthSignInLazyRoute
   '/auth/sign-up': typeof AuthSignUpLazyRoute
@@ -123,6 +130,7 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexLazyRoute
+  '/chat': typeof ChatLazyRoute
   '/scan': typeof ScanLazyRoute
   '/auth/sign-in': typeof AuthSignInLazyRoute
   '/auth/sign-up': typeof AuthSignUpLazyRoute
@@ -139,6 +147,7 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexLazyRoute
+  '/chat': typeof ChatLazyRoute
   '/scan': typeof ScanLazyRoute
   '/auth/sign-in': typeof AuthSignInLazyRoute
   '/auth/sign-up': typeof AuthSignUpLazyRoute
@@ -156,6 +165,7 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/chat'
     | '/scan'
     | '/auth/sign-in'
     | '/auth/sign-up'
@@ -171,6 +181,7 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/chat'
     | '/scan'
     | '/auth/sign-in'
     | '/auth/sign-up'
@@ -186,6 +197,7 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/'
+    | '/chat'
     | '/scan'
     | '/auth/sign-in'
     | '/auth/sign-up'
@@ -202,6 +214,7 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexLazyRoute: typeof IndexLazyRoute
+  ChatLazyRoute: typeof ChatLazyRoute
   ScanLazyRoute: typeof ScanLazyRoute
   AuthSignInLazyRoute: typeof AuthSignInLazyRoute
   AuthSignUpLazyRoute: typeof AuthSignUpLazyRoute
@@ -223,6 +236,13 @@ declare module '@tanstack/react-router' {
       path: '/scan'
       fullPath: '/scan'
       preLoaderRoute: typeof ScanLazyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/chat': {
+      id: '/chat'
+      path: '/chat'
+      fullPath: '/chat'
+      preLoaderRoute: typeof ChatLazyRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/': {
@@ -314,6 +334,7 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexLazyRoute: IndexLazyRoute,
+  ChatLazyRoute: ChatLazyRoute,
   ScanLazyRoute: ScanLazyRoute,
   AuthSignInLazyRoute: AuthSignInLazyRoute,
   AuthSignUpLazyRoute: AuthSignUpLazyRoute,
