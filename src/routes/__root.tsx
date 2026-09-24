@@ -27,7 +27,7 @@ export const Route = createRootRouteWithContext<MyRouterContext>()({
     const location = useLocation()
     const pathname = location.pathname
     const is_auth_route = pathname.startsWith('/auth/')
-    const is_root_tab = ['/', '/scan', '/chat', '/user/history', '/user/profile'].includes(pathname)
+    const is_root_tab = ['/', '/scan', '/user/history', '/user/profile'].includes(pathname) || pathname.startsWith('/chat')
     const show_back_button = !is_root_tab && !is_auth_route
 
     if (is_auth_route) {

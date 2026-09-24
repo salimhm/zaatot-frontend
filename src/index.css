@@ -92,20 +92,20 @@ body {
 .mantine-Select-input,
 .mantine-NumberInput-input,
 .mantine-Textarea-input {
-  background-color: #fcfcfc !important;
+  background-color: #fcfcfc;
   border-radius: var(--radius-sm) !important;
-  border: 1px solid var(--color-border) !important;
+  border: 1px solid var(--color-border);
   transition: all 0.2s ease !important;
 }
 
-.mantine-TextInput-input:focus,
+/* .mantine-TextInput-input:focus,
 .mantine-PasswordInput-input:focus,
 .mantine-Select-input:focus,
 .mantine-NumberInput-input:focus,
 .mantine-Textarea-input:focus {
   border-color: var(--color-primary) !important;
   box-shadow: 0 0 0 2px var(--color-primary-light) !important;
-}
+} */
 
 /* Card Overrides */
 .mantine-Card-root {
@@ -159,4 +159,28 @@ body {
 .mantine-Button-root:disabled .mantine-Button-label,
 .mantine-Button-root[data-disabled] .mantine-Button-label {
   color: inherit !important;
+}
+
+@keyframes dot-pulse {
+  0%,
+  80%,
+  100% {
+    opacity: 0.3;
+    transform: scale(0.8);
+  }
+  40% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(0.25rem);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }

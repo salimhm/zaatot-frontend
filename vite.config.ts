@@ -35,6 +35,7 @@ export default defineConfig({
       '@routes': `${src}/routes`,
       '@component': `${src}/component`,
       '@modal': `${src}/component/modal`,
+      '@chat': `${src}/component/chat`,
       '@store': `${src}/store`,
     },
   },

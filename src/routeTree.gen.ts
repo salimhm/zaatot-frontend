@@ -13,9 +13,9 @@ import { createFileRoute } from '@tanstack/react-router'
 import { Route as rootRouteImport } from './routes/__root'
 
 const ScanLazyRouteImport = createFileRoute('/scan')()
-const ChatLazyRouteImport = createFileRoute('/chat')()
 const IndexLazyRouteImport = createFileRoute('/')()
 const ProductIndexLazyRouteImport = createFileRoute('/product/')()
+const ChatIndexLazyRouteImport = createFileRoute('/chat/')()
 const BrandIndexLazyRouteImport = createFileRoute('/brand/')()
 const UserProfileUpdateLazyRouteImport = createFileRoute(
   '/user/profile-update',
@@ -24,6 +24,9 @@ const UserProfileLazyRouteImport = createFileRoute('/user/profile')()
 const UserHistoryLazyRouteImport = createFileRoute('/user/history')()
 const ProductProduct_idLazyRouteImport = createFileRoute(
   '/product/$product_id',
+)()
+const ChatConversation_idLazyRouteImport = createFileRoute(
+  '/chat/$conversation_id',
 )()
 const BrandBrand_idLazyRouteImport = createFileRoute('/brand/$brand_id')()
 const AuthSignUpLazyRouteImport = createFileRoute('/auth/sign-up')()
@@ -36,11 +39,6 @@ const ScanLazyRoute = ScanLazyRouteImport.update({
   path: '/scan',
   getParentRoute: () => rootRouteImport,
 } as any).lazy(() => import('./routes/scan.lazy').then((d) => d.Route))
-const ChatLazyRoute = ChatLazyRouteImport.update({
-  id: '/chat',
-  path: '/chat',
-  getParentRoute: () => rootRouteImport,
-} as any).lazy(() => import('./routes/chat.lazy').then((d) => d.Route))
 const IndexLazyRoute = IndexLazyRouteImport.update({
   id: '/',
   path: '/',
@@ -51,6 +49,11 @@ const ProductIndexLazyRoute = ProductIndexLazyRouteImport.update({
   path: '/product/',
   getParentRoute: () => rootRouteImport,
 } as any).lazy(() => import('./routes/product/index.lazy').then((d) => d.Route))
+const ChatIndexLazyRoute = ChatIndexLazyRouteImport.update({
+  id: '/chat/',
+  path: '/chat/',
+  getParentRoute: () => rootRouteImport,
+} as any).lazy(() => import('./routes/chat/index.lazy').then((d) => d.Route))
 const BrandIndexLazyRoute = BrandIndexLazyRouteImport.update({
   id: '/brand/',
   path: '/brand/',
@@ -79,6 +82,13 @@ const ProductProduct_idLazyRoute = ProductProduct_idLazyRouteImport.update({
   getParentRoute: () => rootRouteImport,
 } as any).lazy(() =>
   import('./routes/product/$product_id.lazy').then((d) => d.Route),
+)
+const ChatConversation_idLazyRoute = ChatConversation_idLazyRouteImport.update({
+  id: '/chat/$conversation_id',
+  path: '/chat/$conversation_id',
+  getParentRoute: () => rootRouteImport,
+} as any).lazy(() =>
+  import('./routes/chat/$conversation_id.lazy').then((d) => d.Route),
 )
 const BrandBrand_idLazyRoute = BrandBrand_idLazyRouteImport.update({
   id: '/brand/$brand_id',
@@ -114,32 +124,34 @@ const UserListBlackLazyRoute = UserListBlackLazyRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexLazyRoute
-  '/chat': typeof ChatLazyRoute
   '/scan': typeof ScanLazyRoute
   '/auth/sign-in': typeof AuthSignInLazyRoute
   '/auth/sign-up': typeof AuthSignUpLazyRoute
   '/brand/$brand_id': typeof BrandBrand_idLazyRoute
+  '/chat/$conversation_id': typeof ChatConversation_idLazyRoute
   '/product/$product_id': typeof ProductProduct_idLazyRoute
   '/user/history': typeof UserHistoryLazyRoute
   '/user/profile': typeof UserProfileLazyRoute
   '/user/profile-update': typeof UserProfileUpdateLazyRoute
   '/brand/': typeof BrandIndexLazyRoute
+  '/chat/': typeof ChatIndexLazyRoute
   '/product/': typeof ProductIndexLazyRoute
   '/user/list/black': typeof UserListBlackLazyRoute
   '/user/list/white': typeof UserListWhiteLazyRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexLazyRoute
-  '/chat': typeof ChatLazyRoute
   '/scan': typeof ScanLazyRoute
   '/auth/sign-in': typeof AuthSignInLazyRoute
   '/auth/sign-up': typeof AuthSignUpLazyRoute
   '/brand/$brand_id': typeof BrandBrand_idLazyRoute
+  '/chat/$conversation_id': typeof ChatConversation_idLazyRoute
   '/product/$product_id': typeof ProductProduct_idLazyRoute
   '/user/history': typeof UserHistoryLazyRoute
   '/user/profile': typeof UserProfileLazyRoute
   '/user/profile-update': typeof UserProfileUpdateLazyRoute
   '/brand': typeof BrandIndexLazyRoute
+  '/chat': typeof ChatIndexLazyRoute
   '/product': typeof ProductIndexLazyRoute
   '/user/list/black': typeof UserListBlackLazyRoute
   '/user/list/white': typeof UserListWhiteLazyRoute
@@ -147,16 +159,17 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexLazyRoute
-  '/chat': typeof ChatLazyRoute
   '/scan': typeof ScanLazyRoute
   '/auth/sign-in': typeof AuthSignInLazyRoute
   '/auth/sign-up': typeof AuthSignUpLazyRoute
   '/brand/$brand_id': typeof BrandBrand_idLazyRoute
+  '/chat/$conversation_id': typeof ChatConversation_idLazyRoute
   '/product/$product_id': typeof ProductProduct_idLazyRoute
   '/user/history': typeof UserHistoryLazyRoute
   '/user/profile': typeof UserProfileLazyRoute
   '/user/profile-update': typeof UserProfileUpdateLazyRoute
   '/brand/': typeof BrandIndexLazyRoute
+  '/chat/': typeof ChatIndexLazyRoute
   '/product/': typeof ProductIndexLazyRoute
   '/user/list/black': typeof UserListBlackLazyRoute
   '/user/list/white': typeof UserListWhiteLazyRoute
@@ -165,48 +178,51 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
-    | '/chat'
     | '/scan'
     | '/auth/sign-in'
     | '/auth/sign-up'
     | '/brand/$brand_id'
+    | '/chat/$conversation_id'
     | '/product/$product_id'
     | '/user/history'
     | '/user/profile'
     | '/user/profile-update'
     | '/brand/'
+    | '/chat/'
     | '/product/'
     | '/user/list/black'
     | '/user/list/white'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
-    | '/chat'
     | '/scan'
     | '/auth/sign-in'
     | '/auth/sign-up'
     | '/brand/$brand_id'
+    | '/chat/$conversation_id'
     | '/product/$product_id'
     | '/user/history'
     | '/user/profile'
     | '/user/profile-update'
     | '/brand'
+    | '/chat'
     | '/product'
     | '/user/list/black'
     | '/user/list/white'
   id:
     | '__root__'
     | '/'
-    | '/chat'
     | '/scan'
     | '/auth/sign-in'
     | '/auth/sign-up'
     | '/brand/$brand_id'
+    | '/chat/$conversation_id'
     | '/product/$product_id'
     | '/user/history'
     | '/user/profile'
     | '/user/profile-update'
     | '/brand/'
+    | '/chat/'
     | '/product/'
     | '/user/list/black'
     | '/user/list/white'
@@ -214,16 +230,17 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexLazyRoute: typeof IndexLazyRoute
-  ChatLazyRoute: typeof ChatLazyRoute
   ScanLazyRoute: typeof ScanLazyRoute
   AuthSignInLazyRoute: typeof AuthSignInLazyRoute
   AuthSignUpLazyRoute: typeof AuthSignUpLazyRoute
   BrandBrand_idLazyRoute: typeof BrandBrand_idLazyRoute
+  ChatConversation_idLazyRoute: typeof ChatConversation_idLazyRoute
   ProductProduct_idLazyRoute: typeof ProductProduct_idLazyRoute
   UserHistoryLazyRoute: typeof UserHistoryLazyRoute
   UserProfileLazyRoute: typeof UserProfileLazyRoute
   UserProfileUpdateLazyRoute: typeof UserProfileUpdateLazyRoute
   BrandIndexLazyRoute: typeof BrandIndexLazyRoute
+  ChatIndexLazyRoute: typeof ChatIndexLazyRoute
   ProductIndexLazyRoute: typeof ProductIndexLazyRoute
   UserListBlackLazyRoute: typeof UserListBlackLazyRoute
   UserListWhiteLazyRoute: typeof UserListWhiteLazyRoute
@@ -238,13 +255,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ScanLazyRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/chat': {
-      id: '/chat'
-      path: '/chat'
-      fullPath: '/chat'
-      preLoaderRoute: typeof ChatLazyRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/': {
       id: '/'
       path: '/'
@@ -257,6 +267,13 @@ declare module '@tanstack/react-router' {
       path: '/product'
       fullPath: '/product/'
       preLoaderRoute: typeof ProductIndexLazyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/chat/': {
+      id: '/chat/'
+      path: '/chat'
+      fullPath: '/chat/'
+      preLoaderRoute: typeof ChatIndexLazyRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/brand/': {
@@ -292,6 +309,13 @@ declare module '@tanstack/react-router' {
       path: '/product/$product_id'
       fullPath: '/product/$product_id'
       preLoaderRoute: typeof ProductProduct_idLazyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/chat/$conversation_id': {
+      id: '/chat/$conversation_id'
+      path: '/chat/$conversation_id'
+      fullPath: '/chat/$conversation_id'
+      preLoaderRoute: typeof ChatConversation_idLazyRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/brand/$brand_id': {
@@ -334,16 +358,17 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexLazyRoute: IndexLazyRoute,
-  ChatLazyRoute: ChatLazyRoute,
   ScanLazyRoute: ScanLazyRoute,
   AuthSignInLazyRoute: AuthSignInLazyRoute,
   AuthSignUpLazyRoute: AuthSignUpLazyRoute,
   BrandBrand_idLazyRoute: BrandBrand_idLazyRoute,
+  ChatConversation_idLazyRoute: ChatConversation_idLazyRoute,
   ProductProduct_idLazyRoute: ProductProduct_idLazyRoute,
   UserHistoryLazyRoute: UserHistoryLazyRoute,
   UserProfileLazyRoute: UserProfileLazyRoute,
   UserProfileUpdateLazyRoute: UserProfileUpdateLazyRoute,
   BrandIndexLazyRoute: BrandIndexLazyRoute,
+  ChatIndexLazyRoute: ChatIndexLazyRoute,
   ProductIndexLazyRoute: ProductIndexLazyRoute,
   UserListBlackLazyRoute: UserListBlackLazyRoute,
   UserListWhiteLazyRoute: UserListWhiteLazyRoute,
