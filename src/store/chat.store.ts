@@ -1,4 +1,6 @@
 import { Store } from '@tanstack/react-store'
+import { api_ai_analyze } from '@api/ai.api'
+import { store_user } from '@store/user.store'
 
 export type type_message_role = 'user' | 'assistant'
 
@@ -70,7 +72,10 @@ export const store_chat_add_message = (message: type_message) => {
   }))
 }
 
-export const store_chat_send_message = (content: string) => {
+export const store_chat_send_message = async (content: string) => {
+  const user_id_str = store_user.state.user_id
+  const user_id = user_id_str ? parseInt(user_id_str, 10) : 0
+
   const user_message: type_message = {
     message_id: crypto.randomUUID(),
     message_role: 'user',
@@ -87,11 +92,56 @@ export const store_chat_send_message = (content: string) => {
     error: null,
   }))
 
-  // Future: call API here, then add assistant message and set is_investigating = false
-  // For now, stop investigating after a brief delay to show the animation
-  setTimeout(() => {
-    store_set_chat({ is_investigating: false })
-  }, 2500)
+  try {
+    const response = await api_ai_analyze({}, { promot: content, user_id })
+    const data = response.data
+
+    let summary = data.explanation || 'Analysis complete.'
+    let status: type_decision_status = 'not_enough_information'
+
+    if (data.status === 'error') {
+      summary = data.limitations?.[0] || 'An error occurred during analysis.'
+      status = 'potential_concern'
+    } else if (data.explanation) {
+      status = 'worth_considering'
+    }
+
+    const assistant_message: type_message = {
+      message_id: crypto.randomUUID(),
+      message_role: 'assistant',
+      message_content: summary,
+      created_at: new Date().toISOString(),
+      decision: {
+        decision_status: status,
+        decision_summary: summary,
+      },
+      sources: data.sources?.map((s: any) => ({ source_title: typeof s === 'string' ? s : s.title || 'Source', source_url: s.url })) || [],
+    }
+
+    store_chat.setState((state) => ({
+      ...state,
+      messages: [...state.messages, assistant_message],
+      is_investigating: false,
+    }))
+  } catch (error: any) {
+    store_chat.setState((state) => ({
+      ...state,
+      is_investigating: false,
+      error: error.message || 'Failed to connect to ZAATOT AI',
+    }))
+    
+    // Add an error message to the chat
+    store_chat_add_message({
+      message_id: crypto.randomUUID(),
+      message_role: 'assistant',
+      message_content: 'Sorry, I encountered an error and could not complete the analysis.',
+      created_at: new Date().toISOString(),
+      decision: {
+        decision_status: 'not_enough_information',
+        decision_summary: error.message || 'Connection failed',
+      }
+    })
+  }
 }
 
 export const store_chat_reset = () => {
