@@ -93,7 +93,7 @@ export const store_chat_send_message = async (content: string) => {
   }))
 
   try {
-    const response = await api_ai_analyze({}, { promot: content, user_id })
+    const response = await api_ai_analyze({}, {prompt: content, user_id })
     const data = response.data
 
     let summary = data.explanation || 'Analysis complete.'

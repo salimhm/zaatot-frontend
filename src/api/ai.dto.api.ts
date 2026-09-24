@@ -2,7 +2,7 @@ export interface dto_api_ai {
   analyze: {
     query: Record<string, never>
     body: {
-      promot: string
+      prompt: string
       user_id: number
     }
     response: {
