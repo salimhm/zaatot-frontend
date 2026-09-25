@@ -93,6 +93,10 @@ return (
                   created_at={msg.created_at}
                   decision={msg.decision}
                   sources={msg.sources}
+                  steps={msg.steps}
+                  reasons={msg.reasons}
+                  outcome={msg.outcome}
+                  limitations={msg.limitations}
                 />
               ),
             )}
